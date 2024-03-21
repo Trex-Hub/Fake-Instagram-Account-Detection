@@ -8,6 +8,7 @@ import Paper from '@mui/material/Paper';
 import ProfileGridItem from './ProfileGridItem';
 import { Typography } from '@mui/material';
 import Swal from 'sweetalert2';
+import StyledSpan from './StyledSpan';
 
 
 const FlexContainer = styled(Box)({
@@ -74,31 +75,52 @@ function RowAndColumnSpacing({ username, searchClicked }) {
     };
 
     const fourRemPadding = {
-        paddingRight: '3.6rem',
+        paddingRight: ['0rem', '1.6rem', '3.6rem'],
         // paddingLeft: '4.5rem'
-        paddingLeft: '3.6rem',
+        paddingLeft: ['0rem', '1.6rem', '3.6rem'],
         // border: '1px solid black'
     }
     return (
-        <Box id='account-details' height='100vh' sx={{ ...fourRemPadding, width: '100%', backgroundColor: '#F8F7F4', paddingBottom: '1.4rem', paddingTop: '2rem', borderBottom: '1px dashed' }}>
+        <Box id='account-details' sx={{ ...fourRemPadding, width: '100%', backgroundColor: '#F8F7F4', paddingBottom: '1.4rem', paddingTop: '2rem', borderBottom: '1px dashed', height: ['100%', '100%', '100vh '] }}>
 
             <Typography variant='h4' fontWeight={'700'} marginTop={10} marginBottom={6} sx={{ color: '#7880B5' }} align='center'> Account Details</Typography>
 
-            <Grid container spacing={2} backgroundColor='#F8F7F4' width='100%' ml='0' borderRadius='2rem'   >
-                <Grid item xs={12} sm={6} >
+            <Grid container spacing={2} backgroundColor='#F8F7F4' width='100%' ml='0' borderRadius='2rem'
+                sx={{
+                    justifyContent: ['center', 'center', 'flex-start'],
+                    alignItems: ['center', 'center', 'flex-start'],
+                }}
+            >
+                <Grid item xs={12} md={6}>
                     <Item sx={{ borderRadius: '2rem', backgroundColor: 'transparent' }}>
-                        <FlexContainer sx={{ display: 'flex', flexDirection: 'row' }}>
+                        <FlexContainer sx={{ display: 'flex', flexDirection: ['column', 'row', 'row'], justifyContent: 'center', alignItems: 'center' }}>
                             <Avatar
                                 alt="Avatar"
                                 src=""
-                                sx={{ width: 190, height: 190, border: '3px solid black' }}
+                                sx={{
+                                    width: '170px',
+                                    height: '170px',
+                                    border: '3px solid black',
+                                    '@media (max-width: 1200px)': {
+                                        width: '120px',
+                                        height: '120px',
+                                    },
+                                    '@media (max-width: 768px)': {
+                                        width: '80px',
+                                        height: '80px',
+                                    }
+                                }}
                             />
-                            {/* Add Background to it */}
-                            <span style={{ fontSize: '1.6rem', backgroundColor: '#7F7EFF', color: 'whitesmoke', paddingRight: '1rem', paddingLeft: '1rem', borderRadius: '3px', marginLeft: "6rem" }}> @{updatedUsername}</span>
+
+
+                            <StyledSpan>
+                                @{updatedUsername}
+                            </StyledSpan>
+
                         </FlexContainer>
                     </Item>
                 </Grid>
-                <Grid item xs={12} sm={6} borderRadius='2rem'>
+                <Grid item xs={12} md={6}>
                     <Item sx={{ borderRadius: '2rem', backgroundColor: 'transparent' }}>
                         <Gauge
                             value={gaugeValue}
@@ -107,31 +129,34 @@ function RowAndColumnSpacing({ username, searchClicked }) {
                             min={0}
                             max={10}
                             color={getColor(gaugeValue)}
-                            label='Authenticty'
+                            label='Authenticity'
                             topLabelStyle={topLabelStyle}
                             valueLabelStyle={valueLabelStyle}
                         />
                     </Item>
                 </Grid>
             </Grid>
+
+
+
             <Box sx={{ width: '100%', marginTop: '2.4rem', }}>
                 <Grid container spacing={3}  >
-                    <Grid item xs={4}>
+                    <Grid item xs={12} sm={6} md={4}>
                         <ProfileGridItem label="Profile Bio" value={defaultProfileBio} style={textStyle} />
                     </Grid>
-                    <Grid item xs={4}>
+                    <Grid item xs={12} sm={6} md={4}>
                         <ProfileGridItem label="Date of Joining" value={dateOfJoining} style={textStyle} />
                     </Grid>
-                    <Grid item xs={4}>
+                    <Grid item xs={12} sm={6} md={4}>
                         <ProfileGridItem label="Follower Count" value={defaultFollowerCount} style={textStyle} />
                     </Grid>
-                    <Grid item xs={4}>
+                    <Grid item xs={12} sm={6} md={4}>
                         <ProfileGridItem label="Following Count" value={defaultFollowingCount} style={textStyle} />
                     </Grid>
-                    <Grid item xs={4}>
+                    <Grid item xs={12} sm={6} md={4}>
                         <ProfileGridItem label="Post Count" value={defaultPostCount} style={textStyle} />
                     </Grid>
-                    <Grid item xs={4}>
+                    <Grid item xs={12} sm={6} md={4}>
                         <ProfileGridItem label="Private Account" value={String(false).charAt(0).toUpperCase() + String(false).slice(1)} style={textStyle} />
                     </Grid>
                 </Grid>

@@ -7,13 +7,12 @@ import Container from '@mui/material/Container';
 import Button from '@mui/material/Button';
 import AdbIcon from '@mui/icons-material/Adb';
 import AccountCircle from '@mui/icons-material/AccountCircleOutlined';
+import IconButton from '@mui/material/IconButton';
+import MenuIcon from '@mui/icons-material/Menu';
+import Menu from '@mui/material/Menu';
+import MenuItem from '@mui/material/MenuItem';
 
 const pages = ['Home', 'Account Details', 'Report', 'FAQ'];
-const gradientStyle = {
-  background: 'linear-gradient(to right, #feda75, #fa7e1e, #d62976, #962fbf, #4f5bd5)',
-  WebkitBackgroundClip: 'text',
-  WebkitTextFillColor: 'transparent',
-};
 
 function scrollToElement(id) {
   const element = document.getElementById(id);
@@ -23,37 +22,76 @@ function scrollToElement(id) {
 }
 
 function ResponsiveNavBar() {
+  const gradientStyle = {
+    background: 'linear-gradient(to right, #feda75, #fa7e1e, #d62976, #962fbf, #4f5bd5)',
+    WebkitBackgroundClip: 'text',
+    WebkitTextFillColor: 'transparent',
+  };
+  const [anchorEl, setAnchorEl] = React.useState(null);
+
   const handleClick = (pageId) => {
     scrollToElement(pageId);
+    handleClose();
+  };
+
+  const handleMenuOpen = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleClose = () => {
+    setAnchorEl(null);
   };
 
   return (
-    <AppBar position="sticky" style={{ backgroundColor: 'black' }}>
+    <AppBar position="fixed" style={{ backgroundColor: 'black' }}>
       <Container maxWidth="xl">
         <Toolbar disableGutters>
-          <Box sx={{ display: 'flex', alignItems: 'start' }}>
+          <Box sx={{ display: 'flex', flexGrow: 1, flexDirection: 'row' }}>
             <AdbIcon sx={{ display: { xs: 'none', md: 'flex' }, mr: 1, fontSize: '2rem' }} />
+            <IconButton
+              size="large"
+              edge="start"
+              color="inherit"
+              aria-label="menu"
+              onClick={handleMenuOpen}
+              sx={{ display: { md: 'none' } }}
+            >
+              <MenuIcon />
+            </IconButton>
+            <Menu
+              id="responsive-menu"
+              anchorEl={anchorEl}
+              open={Boolean(anchorEl)}
+              onClose={handleClose}
+              sx={{ display: { md: 'none' } }}
+            >
+              {pages.map((page) => (
+                <MenuItem key={page} onClick={() => handleClick(page.toLowerCase().replace(' ', '-'))}>
+                  {page}
+                </MenuItem>
+              ))}
+            </Menu>
+
             <Typography
               variant="h6"
               noWrap
               component="a"
               href="#app-bar-with-responsive-menu"
               sx={{
-                mr: 2,
-                display: { xs: 'none', md: 'flex' },
+                ...gradientStyle,
                 fontFamily: '"Lexend Deca", sans-serif',
                 fontWeight: 700,
                 letterSpacing: '.3rem',
                 color: 'inherit',
                 textDecoration: 'none',
-                ...gradientStyle,
+                lineHeight: [2.25, 2.25, 1.5],
               }}
             >
               Dev's Den
             </Typography>
           </Box>
 
-          <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'end', flexGrow: 1 }}>
+          <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
             {pages.map((page) => (
               <Button
                 key={page}
@@ -61,9 +99,6 @@ function ResponsiveNavBar() {
                 sx={{
                   mx: 2,
                   color: '#808080',
-                  padding: '6px 12px',
-                  fontSize: '1.1rem',
-                  background: 'black',
                   fontFamily: '"Lexend Deca", sans-serif',
                   '&:hover': {
                     color: 'white',
@@ -73,14 +108,11 @@ function ResponsiveNavBar() {
                 {page}
               </Button>
             ))}
-            <AccountCircle sx={{
-              color: '#808080',
-              fontSize: '35px',
-              '&:hover': {
-                color: 'white',
-              },
-            }} />
           </Box>
+
+          <IconButton color="inherit" sx={{ display: { xs: 'flex', md: 'none' } }}>
+            <AccountCircle />
+          </IconButton>
         </Toolbar>
       </Container>
     </AppBar>

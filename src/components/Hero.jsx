@@ -1,13 +1,15 @@
-import React, { Component } from 'react';
-import { Typography } from '@mui/material';
+import React, { useState } from 'react';
+import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import RowAndColumnSpacing from './ProfileContent';
 import Button from '@mui/material/Button';
 import CustomTextField from './CustomTextField';
 import FAQ from './FAQ';
 import ReportHere from './ReportHere';
-import {sanitizeInput} from './utils'
+import { sanitizeInput } from './utils';
 import Footer from './footer';
+import useMediaQuery from '@mui/material/useMediaQuery';
+import { useTheme } from '@mui/material/styles';
 
 const customFont = {
   fontFamily: '"Lexend Deca", sans-serif',
@@ -30,120 +32,132 @@ const gradientStyle = {
   WebkitTextFillColor: 'transparent',
 };
 
-class Hero extends Component {
-  constructor(props) {
-    super(props);
+function Hero() {
+  const [username, setUsername] = useState('');
+  const [searchClicked, setSearchClicked] = useState(false);
+  const [usernameError, setUsernameError] = useState('');
 
-    this.state = {
-      username: '',
-      searchClicked: false,
-      usernameError: ''
-    };
+  const theme = useTheme();
+  const isSmallScreen = useMediaQuery(theme.breakpoints.down('sm'));
+  const isMediumScreen = useMediaQuery(theme.breakpoints.between('md', 'lg'));
+
+  let variant = "h4"; // Default variant
+  if (isSmallScreen) {
+    variant = "h4"; // Change variant for small screens
+  } else if (isMediumScreen) {
+    variant = "h3"; // Change variant for medium screens
+  } else {
+    variant = "h3"; // Change variant for large screens
+  }
+  let variantTwo = "h5"
+  if (isSmallScreen) {
+    variantTwo = "h6"; // Change variant for small screens
+  } else if (isMediumScreen) {
+    variantTwo = "h5"; // Change variant for medium screens
+  } else {
+    variantTwo = "h5"; // Change variant for large screens
   }
 
-  validateUsername = () => {
-    const { username } = this.state;
+  const handleUsernameChange = (event) => {
+    setUsername(event.target.value);
+    setUsernameError('');
+  };
+
+  const validateUsername = () => {
     if (!username.trim()) {
-      this.setState({ usernameError: 'Username cannot be empty' });
+      setUsernameError('Username cannot be empty');
       return false;
     }
     if (username.length > 30) {
-      this.setState({ usernameError: 'Username cannot be longer than 30 characters' });
+      setUsernameError('Username cannot be longer than 30 characters');
       return false;
     }
     // Additional validation to prevent XSS and SQL Injection
     if (!sanitizeInput(username)) {
-      this.setState({ usernameError: 'Invalid characters in the username' });
+      setUsernameError('Invalid characters in the username');
       return false;
     }
     return true;
   };
 
-  handleUsernameChange = (event) => {
-    this.setState({ username: event.target.value, usernameError: '' });
+  const handleSearchClick = () => {
+    if (validateUsername()) {
+      setSearchClicked(true);
+    }
   };
 
-  handleSearchClick = () => {
-    if (this.validateUsername()) {
-      this.setState({ searchClicked: true });
-    }   
-  };
-
-  render() {
-    const { username, usernameError, searchClicked } = this.state;
-    const inputStyles = {
-      input: {
-        color: 'whitesmoke',
-        '&::placeholder': {
-          color: 'white',
-        },
-        '&:-webkit-input-placeholder': {
-          color: 'white',
-        },
-        '&::-moz-placeholder': {
-          color: 'white',
-          opacity: 1,
-        },
-        '&:-ms-input-placeholder': {
-          color: 'white',
-        },
-        '&:focus': {
-          borderColor: 'white !important',
-        },
+  const inputStyles = {
+    input: {
+      color: 'whitesmoke',
+      '&::placeholder': {
+        color: 'white',
       },
-    };
-    return (
-      <div style={{ backgroundColor: '' }}>
-        <div style={{ textAlign: 'center' }}>
-          <Typography variant="h3" gutterBottom style={{ ...customFont, fontWeight: 600, marginBottom: '0.3rem', marginTop: '12rem', color: 'whitesmoke' }}>
-            Social Media Profile
-          </Typography>
-          <Typography variant="h3" gutterBottom style={{ ...customFont, fontWeight: 600, marginBottom: '1rem', marginTop: '0.3rem', color: 'whitesmoke' }}>
-            <span style={gradientStyle}>
-              Authentication {' '}
-            </span>
-            Portal
-          </Typography>
-          <Typography variant="h5" gutterBottom style={{ ...customFont, fontWeight: 500, marginBottom: '12rem', color: 'whitesmoke' }}>
-            Let's Secure your online identity
-          </Typography>
-          <Box noValidate display="flex" justifyContent="center" marginBottom={17} marginTop={10}>
-            <CustomTextField
-              label="Enter Username"
-              id="username"
-              style={{ ...inputStyles, width: '40%', marginRight: '10px' }}
-              value={username}
-              error={!!usernameError}
-              helperText={usernameError}
-              onChange={this.handleUsernameChange}
-              InputLabelProps={{
-                style: { color: 'whitesmoke' }
-              }}
-              InputProps={{
-                style: inputStyles.input,
-              }}
-            />
-            <form action="" method='POST'>
+      '&:-webkit-input-placeholder': {
+        color: 'white',
+      },
+      '&::-moz-placeholder': {
+        color: 'white',
+        opacity: 1,
+      },
+      '&:-ms-input-placeholder': {
+        color: 'white',
+      },
+      '&:focus': {
+        borderColor: 'white !important',
+      },
+    },
+  };
 
-            <Button variant="contained" onClick={this.handleSearchClick} style={{ ...instaColor, width: '12vw', lineHeight: '2.5' }}>Search</Button>
-            </form>
-          </Box>
-        </div>
-        <Box display="flex" justifyContent="center">
-          <RowAndColumnSpacing username={username} searchClicked={searchClicked} />
+  return (
+    <div style={{ backgroundColor: '' }}>
+      <div style={{ textAlign: 'center' }}>
+        <Typography variant={variant} gutterBottom style={{ ...customFont, fontWeight: 600, marginBottom: '0.3rem', marginTop: '12rem', color: 'whitesmoke' }}>
+          Social Media Profile
+        </Typography>
+        <Typography variant={variant} gutterBottom style={{ ...customFont, fontWeight: 600, marginBottom: '1rem', marginTop: '0.3rem', color: 'whitesmoke' }}>
+          <span style={gradientStyle}>
+            Authentication {' '}
+          </span>
+          Portal
+        </Typography>
+        <Typography variant={variantTwo} gutterBottom style={{ ...customFont, fontWeight: 500, marginBottom: '12rem', color: 'whitesmoke' }}>
+          Let's Secure your online identity
+        </Typography>
+        <Box noValidate display="flex" justifyContent="center" marginBottom={17} marginTop={10}>
+          <CustomTextField
+            label="Enter Username"
+            id="username"
+            style={{ ...inputStyles, width: '40%', marginRight: '10px' }}
+            value={username}
+            error={!!usernameError}
+            helperText={usernameError}
+            onChange={handleUsernameChange}
+            InputLabelProps={{
+              style: { color: 'whitesmoke' }
+            }}
+            InputProps={{
+              style: inputStyles.input,
+            }}
+          />
+          <form action="" method='POST'>
+            <Button variant="contained" onClick={handleSearchClick} style={{ ...instaColor, width: '12vw', lineHeight: '2.5' }}>Search</Button>
+          </form>
         </Box>
-        <div id="Report" style={{ backgroundColor: 'white' }}>
-          <ReportHere />
-        </div>
-        <div style={{ backgroundColor: 'white' }}>
-          <FAQ />
-        </div>
-        <div id="footer">
-            <Footer/>
-        </div>
       </div>
-    );
-  }
+      <Box display="flex" justifyContent="center">
+        <RowAndColumnSpacing username={username} searchClicked={searchClicked} />
+      </Box>
+      <div id="Report" style={{ backgroundColor: 'white' }}>
+        <ReportHere />
+      </div>
+      <div style={{ backgroundColor: 'white' }}>
+        <FAQ />
+      </div>
+      <div id="footer">
+        <Footer />
+      </div>
+    </div>
+  );
 }
 
 export default Hero;

@@ -16,15 +16,22 @@ const avatarStyles = {
     '&:hover': {
         transform: 'scale(1.1)',
         boxShadow: '10px 10px 10px rgba(0, 0, 0, 0.5)'
+    },
+    '@media (max-width: 1200px)': {
+        width: '120px',
+        height: '120px',
+    },
+    '@media (max-width: 768px)': {
+        width: '80px',
+        height: '80px',
     }
-};
-
+}
 
 
 function ReportHere() {
     return (
         // The Report Action ID holder is Placed inside Profile content for better scroll allignment
-        <Box sx={{ backgroundColor: '#F8F7F4', height: '80vh' }}>
+        <Box sx={{ backgroundColor: '#F8F7F4', height: ['100%', '100%', '80vh'] }} overflow='scroll'>
             <Typography variant="h4" pt={10} mb={15} textAlign="center" fontWeight={700} sx={{ color: '#7880B5' }}>
                 Report Here
             </Typography>
@@ -33,7 +40,7 @@ function ReportHere() {
                     <a href="https://mumbaipolice.gov.in/OnlineComplaints?ps_id=0" target='_blank' rel="noreferrer">
                         <Avatar variant="square" src={MumbaiPolice} sx={avatarStyles} />
                     </a>
-                    <Typography variant='h6' align="center">Mumbai Police</Typography>
+                    <Typography variant='h6' align="center">Police</Typography>
                 </div>
                 <div>
                     <a href="https://cybercrime.gov.in/Accept.aspx" target='_blank' rel="noreferrer">
@@ -44,7 +51,7 @@ function ReportHere() {
                             sx={avatarStyles}
                         />
                     </a>
-                    <Typography variant='h6' align="center">CyberCrime Portal</Typography>
+                    <Typography variant='h6' align="center">CyberCrime</Typography>
                 </div>
                 <div>
                     <a href="https://www.instagram.com/hacked/" target='_blank' rel="noreferrer">

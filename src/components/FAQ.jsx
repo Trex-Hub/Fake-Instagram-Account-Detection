@@ -10,7 +10,7 @@ import Box from '@mui/material/Box';
 function FAQ() {
     const [index, setIndex] = React.useState(null);
     return (
-        <Box id='faq' sx={{ backgroundColor: '#F8F7F4', borderTop: '1px dashed', height: '90vh' }}>
+        <Box id='faq' sx={{ backgroundColor: '#F8F7F4', borderTop: '1px dashed', height: ['100%', '100%', '90vh'] }}>
             <AccordionGroup sx={{ maxWidth: '90%', alignItems: 'left', overflow: 'clip', marginLeft: '5%', fontSize: '1.2rem', }}>
                 <Typography variant='h4' mt={10} mb={15} textAlign={'center'} fontWeight={700} sx={{ color: '#7880B5' }}> F.A.Q </Typography>
                 {/* Add margin between each Accordion */}
