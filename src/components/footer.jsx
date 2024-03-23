@@ -70,10 +70,9 @@ const Footer = () => {
                                 </span>
                             </div>
                         </FooterLink>
-                        <FooterLink href="https://www.linkedin.com/in/devs-den/" target="_blank">
+                        <FooterLink href="https://www.linkedin.com/in/shubham-sharma-6b583b28a/" target="_blank">
                             <div style={{ display: 'flex', flexDirection: 'row' }}>
                                 <LinkedInIcon />
-
                                 <span
                                     style={{
                                         marginLeft: "10px",

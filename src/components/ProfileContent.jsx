@@ -35,14 +35,13 @@ function RowAndColumnSpacing({ username, searchClicked }) {
         }
     }, [searchClicked, username]);
 
-    const gaugeValue = 9;
+    const gaugeValue = 2;
     useEffect(() => {
         if (gaugeValue < 5) {
             Swal.fire({
-
                 icon: 'error',
                 title: 'Low Authenticty Detected',
-                html: `You can report it to, <a href="https://mumbaipolice.gov.in/OnlineComplaints?ps_id=0" target="_blank">Mumbai Police</a>, <a href="https://cybercrime.gov.in/Accept.aspx" target="_blank"> CyberCrime Portal</a> and <a href="https://www.instagram.com/hacked/" target="_blank"> Instagram Support </a>`,
+                html: `You can report it to, <a href="https://mumbaipolice.gov.in/OnlineComplaints?ps_id=0"  target="_blank">Mumbai Police</a>, <a href="https://cybercrime.gov.in/Accept.aspx" target="_blank"> CyberCrime Portal</a> and <a href="https://www.instagram.com/hacked/" target="_blank"> Instagram Support </a>`,
                 confirmButtonText: 'OK',
             });
         }
